@@ -34,15 +34,24 @@ docker run -it --net mynet -h slave2 --ip 172.19.0.4 \
 #
 #rm -r tmpIP
 
+#masters
+mkdir tmpMasters
+touch tmpMasters/masters
+
+echo slave1 >> tmpMasters/masters
+
+docker exec -i master sh -c 'cat > $HADOOP_CONFIG_HOME/masters' < tmpMasters/masters
+
+rm -r tmpMasters
+
 #slaves
 mkdir tmpSlaves
 touch tmpSlaves/slaves
 
-echo master >> tmpSlaves/slaves
 echo slave1 >> tmpSlaves/slaves
 echo slave2 >> tmpSlaves/slaves
 
-docker exec -i master sh -c 'cat >> $HADOOP_CONFIG_HOME/slaves' < tmpSlaves/slaves
+docker exec -i master sh -c 'cat > $HADOOP_CONFIG_HOME/slaves' < tmpSlaves/slaves
 
 rm -r tmpSlaves
 
@@ -61,7 +70,10 @@ docker exec -it master sh -c 'scp $HADOOP_HOME/../hadoop-1.2.1-1.0.tar.gz root@s
 docker exec -it slave1 sh -c 'tar -zxvf /root/soft/apache/hadoop/hadoop-1.2.1-1.0.tar.gz'
 docker exec -it slave2 sh -c 'tar -zxvf /root/soft/apache/hadoop/hadoop-1.2.1-1.0.tar.gz'
 
-
-
+#hadoop start
+#docker exec -it master sh -c '$HADOOP_HOME/bin/stop-all.sh';
+docker exec -it master sh -c '$HADOOP_HOME/bin/hadoop namenode -format';
+docker exec -it master sh -c '$HADOOP_HOME/bin/start-all.sh';
+#docker exec -it master /bin/bash
 
 

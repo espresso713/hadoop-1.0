@@ -46,15 +46,28 @@ ENV	PATH=$PATH:$HADOOP_HOME/sbin
 ADD core-site-org.xml $HADOOP_CONFIG_HOME
 ADD hdfs-site-org.xml $HADOOP_CONFIG_HOME
 ADD mapred-site-org.xml $HADOOP_CONFIG_HOME
+#ADD masters-org $HADOOP_CONFIG_HOME
+#ADD slaves-org $HADOOP_CONFIG_HOME
 
 WORKDIR $HADOOP_CONFIG_HOME
 RUN mv core-site.xml core-site-backup.xml
 RUN mv hdfs-site.xml hdfs-site-backup.xml
 RUN mv mapred-site.xml mapred-site-backup.xml
+#RUN mv masters masters-backup
+#RUN mv slaves slaves-backup
 RUN mv core-site-org.xml core-site.xml
 RUN mv hdfs-site-org.xml hdfs-site.xml
 RUN mv mapred-site-org.xml mapred-site.xml
+#RUN mv masters-org masters
+#RUN mv slaves-org slaves
+
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> hadoop-env.sh
+RUN echo 'export HADOOP_HOME_WARN_SUPPRESS="TRUE"' >> hadoop-env.sh
+RUN echo 'export HADOOP_PID_DIR=/root/soft/apache/hadoop/hadoop-1.2.1/pids' >> hadoop-env.sh
+
+#etc
+RUN mkdir -p /root/soft/apache/hadoop/hadoop-1.2.1/hadoop-data
+RUN mkdir -p /root/soft/apache/hadoop/hadoop-1.2.1/pids
 
 
 

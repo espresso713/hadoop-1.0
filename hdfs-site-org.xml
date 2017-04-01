@@ -22,11 +22,11 @@
 		<value>2</value>		
 	</property>
 	<property>
-		<name>dfs.namenode.name.dir</name>
-		<value>/root/soft/apache/hadoop/hadoop-2.6.1/namenode</value>		
+		<name>dfs.http.address</name>
+		<value>master:50070</value>		
 	</property>
 	<property>
-		<name>dfs.datanode.name.dir</name>
-		<value>/root/soft/apache/hadoop/hadoop-2.6.1/datanode</value>		
+		<name>dfs.secondary.http.address</name>
+		<value>slave1:50090</value>		
 	</property>
 </configuration>
