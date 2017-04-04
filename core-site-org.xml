@@ -19,7 +19,7 @@
 <configuration>
 	<property>
 		<name>hadoop.tmp.dir</name>
-		<value>/root/soft/apache/hadoop/hadoop-1.2.1/hadoop-data</value>
+		<value>/home/hadoop/soft/apache/hadoop/hadoop-1.2.1/hadoop-data</value>
 	</property>
 	<property>
 		<name>fs.default.name</name>

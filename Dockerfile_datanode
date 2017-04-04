@@ -15,11 +15,13 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D"]
-
-#account
-RUN adduser hadoop
-RUN echo 'hadoop:m40931gf' | chpasswd
+#env - account: hadoop
+ENV MY_HOME=/home/hadoop
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle 
+ENV	HADOOP_HOME=$MY_HOME/soft/apache/hadoop/hadoop-1.2.1
+ENV	HADOOP_CONFIG_HOME=$HADOOP_HOME/conf
+ENV	PATH=$PATH:$HADOOP_HOME/bin 
+ENV	PATH=$PATH:$HADOOP_HOME/sbin 
 
 #java
 RUN apt-get -y install software-properties-common
@@ -30,16 +32,18 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/oracle-jdk8-installer
 
-#hadoop
-RUN mkdir -p /root/soft/apache/hadoop
-WORKDIR /root/soft/apache/hadoop
+#account
+RUN adduser hadoop
+RUN echo 'hadoop:m40931gf' | chpasswd
+USER hadoop    
 
-#env
-ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle 
-ENV	HADOOP_HOME=/root/soft/apache/hadoop/hadoop-1.2.1
-ENV	HADOOP_CONFIG_HOME=$HADOOP_HOME/conf
-ENV	PATH=$PATH:$HADOOP_HOME/bin 
-ENV	PATH=$PATH:$HADOOP_HOME/sbin 
+RUN mkdir -p $HOME/soft/apache/hadoop
+WORKDIR $MY_HOME/soft/apache/hadoop
+
+USER root  
+CMD ["/usr/sbin/sshd", "-D"]
+
+
 
 
 
